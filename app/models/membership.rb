@@ -25,11 +25,17 @@ class Membership < ActiveRecord::Base
   belongs_to :project
 
   ############CALLBACKS########################################################
-  after_commit :send_out_activation_emails, on: :create
+  # after_commit :send_out_activation_emails, on: :create
 
   ############SCOPES###########################################################
 
   #############################################################################
+
+
+  def self.enrol!(user, project)
+  	create(user: user, project: project)
+  end
+
 
   def send_out_activation_emails
   	

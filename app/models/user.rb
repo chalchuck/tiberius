@@ -43,6 +43,35 @@ class User < ActiveRecord::Base
     end
   end
 
+  def create_self(collaborators, project)
+  	collaborators.each do |collaborator|
+  		user = create(login: collaborator["login"], image: collaborator["avatar_url"])
+  		Membership.enrol!(user, project)
+  	end
+  end
+
+
+  # {"login"=>"kgathi2",
+  #  "id"=>259633,
+  #  "avatar_url"=>"https://avatars.githubusercontent.com/u/259633?v=3",
+  #  "gravatar_id"=>"",
+  #  "url"=>"https://api.github.com/users/kgathi2",
+  #  "html_url"=>"https://github.com/kgathi2",
+  #  "followers_url"=>"https://api.github.com/users/kgathi2/followers",
+  #  "following_url"=>"https://api.github.com/users/kgathi2/following{/other_user}",
+  #  "gists_url"=>"https://api.github.com/users/kgathi2/gists{/gist_id}",
+  #  "starred_url"=>"https://api.github.com/users/kgathi2/starred{/owner}{/repo}",
+  #  "subscriptions_url"=>"https://api.github.com/users/kgathi2/subscriptions",
+  #  "organizations_url"=>"https://api.github.com/users/kgathi2/orgs",
+  #  "repos_url"=>"https://api.github.com/users/kgathi2/repos",
+  #  "events_url"=>"https://api.github.com/users/kgathi2/events{/privacy}",
+  #  "received_events_url"=>"https://api.github.com/users/kgathi2/received_events",
+  #  "type"=>"User",
+  #  "site_admin"=>false,
+  #  "contributions"=>1}
+
+
+
 private
 
 	def fetch_github_repos

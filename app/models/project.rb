@@ -32,7 +32,7 @@ class Project < ActiveRecord::Base
 	has_many :collaborators, through: :memberships, source: :user
 
 	############CALLBACKS########################################################
-	after_commit :fetch_github_tasks, on: :create
+	after_commit :fetch_project_collaborators, on: :create
 
 	############SCOPES###########################################################
 
@@ -58,7 +58,7 @@ class Project < ActiveRecord::Base
 
 private
 
-	def fetch_github_tasks
-		GithubService.new(user).project_tasks(self)
+	def fetch_project_collaborators
+		GithubService.new(user).fetch_project_collaborators(self)
 	end
 end
