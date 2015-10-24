@@ -14,7 +14,7 @@ if Rails.env.development?
       'position_in_serializer'  => "before",
       'show_foreign_keys'       => "true",
       'show_indexes'            => "true",
-      'simple_indexes'          => "false",
+      'simple_indexes'          => "true",
       'model_dir'               => "app/models",
       'include_version'         => "false",
       'require'                 => "",
@@ -27,7 +27,7 @@ if Rails.env.development?
       'format_bare'             => "true",
       'format_rdoc'             => "false",
       'format_markdown'         => "false",
-      'sort'                    => "false",
+      'sort'                    => "true",
       'force'                   => "false",
       'trace'                   => "false",
     })

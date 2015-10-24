@@ -16,11 +16,16 @@
 
 class User < ActiveRecord::Base
 
+	############VALIDATIONS######################################################
+	############ASSOCIATIONS#####################################################
+	has_many :projects, dependent: :destroy
 
+	############CALLBACKS########################################################
 	after_commit :fetch_github_repos, on: :create
 
-
-
+	############SCOPES###########################################################
+	
+	#############################################################################
 
   def self.create_with_omniauth(auth)
     create! do |user|
