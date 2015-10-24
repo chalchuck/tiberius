@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 	############VALIDATIONS######################################################
 	############ASSOCIATIONS#####################################################
 	has_many :projects, dependent: :destroy
+	has_many :memberships, dependent: :destroy
+	has_many :collaborations, through: :memberships, source: :project
 
 	############CALLBACKS########################################################
 	after_commit :fetch_github_repos, on: :create

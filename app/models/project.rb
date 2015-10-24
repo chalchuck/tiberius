@@ -17,10 +17,6 @@
 #  index_projects_on_slug     (slug) UNIQUE
 #  index_projects_on_user_id  (user_id)
 #
-# Foreign Keys
-#
-#  fk_rails_e572b4b0aa  (user_id => users.id)
-#
 
 class Project < ActiveRecord::Base
 
@@ -32,6 +28,8 @@ class Project < ActiveRecord::Base
 
 	############ASSOCIATIONS#####################################################
 	belongs_to :user
+	has_many :memberships, dependent: :destroy
+	has_many :collaborators, through: :memberships, source: :user
 
 	############CALLBACKS########################################################
 	after_commit :fetch_github_tasks, on: :create
@@ -48,7 +46,7 @@ class Project < ActiveRecord::Base
 				create(
 					github_id: repo["id"],
 					name: repo["name"].humanize,
-					description: repo["description"]
+					description: repo["description"],
 					slug: repo["name"],
 					user: owner
 					)
