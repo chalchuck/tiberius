@@ -23,20 +23,34 @@ class Project < ActiveRecord::Base
 	############VALIDATIONS######################################################
 	validates :github_id, uniqueness: {message: "%{value} is already in use"}, allow_blank: true
 	validates :name, presence: {message: "A Project name is required"}, uniqueness: {message: "%{value} is already in user"}
-	validates :slug, presence: {message: "Project slug is required"}, uniqueness: {message: "%{value} is already in use"}
+	validates :slug, uniqueness: {message: "%{value} is already in use"}, allow_blank: true
 	validates :user, presence: {message: "A project needs to have an owner"}
 
 	############ASSOCIATIONS#####################################################
 	belongs_to :user
 	has_many :memberships, dependent: :destroy
+	has_many :tasks, :dependent => :destroy
 	has_many :collaborators, through: :memberships, source: :user
 
 	############CALLBACKS########################################################
 	after_commit :fetch_project_collaborators, on: :create
-
+	before_save :make_slug
 	############SCOPES###########################################################
 
 	#############################################################################
+
+	def to_s
+		try(:name)
+	end
+
+
+	def push_to_github
+		
+	end
+
+	def make_slug
+		self[:slug] = self.name.gsub(/s\+/,'')
+	end
 
 
 	def self.create_self(repos)
@@ -47,7 +61,7 @@ class Project < ActiveRecord::Base
 					github_id: repo["id"],
 					name: repo["name"].humanize,
 					description: repo["description"],
-					slug: repo["name"],
+					slug: repo["name"].gsub(/s\+/,''),
 					user: owner
 					)
 			rescue Exception => e

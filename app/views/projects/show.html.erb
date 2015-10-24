@@ -1,29 +1,51 @@
-<p id="notice"><%= notice %></p>
+<div class="piepanel">
+  <p>
+    <strong>Github:</strong>
+    <%= @project.github_id %>
+  </p>
 
-<p>
-  <strong>Github:</strong>
-  <%= @project.github_id %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @project.name %>
+  </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @project.name %>
-</p>
+  <p>
+    <strong>Slug:</strong>
+    <%= @project.slug %>
+  </p>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @project.slug %>
-</p>
+  <p>
+    <strong>Description:</strong>
+    <%= @project.description %>
+  </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @project.description %>
-</p>
+  <p>
+    <strong>User:</strong>
+    <%= @project.user %>
+  </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @project.user %>
-</p>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<hr>
+  <% if @project.tasks.present? %>
+      
+    <h2> <%= @project.name %> tasks</h2>
+
+      <table class="table table-hover">
+        <tr>
+          <td>Title</td>
+          <td>Description</td>
+        </tr>
+        <% @project.tasks.each do |task| %>
+          <tr>
+          <td><%= link_to task.title, [@project, task] %></td>
+          <td><%= task.description%></td>
+          </tr>
+        <% end %>
+      </table>
+
+  <% else %>
+    <h2>This project has no tasks</h2>
+  <% end %>
+
+  <%= link_to("Create task", [:new, @project, :task] , class: "btn btn-primary") %>
+</div>

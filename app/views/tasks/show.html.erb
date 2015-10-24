@@ -1,0 +1,24 @@
+<div class="piepanel">
+
+	<p>
+	  <strong>Project:</strong>
+	  <%= @task.project %>
+	</p>
+
+	<p>
+	  <strong>User:</strong>
+	  <%= @task.user %>
+	</p>
+
+	<p>
+		Title:
+		<%= @task.title %>
+	</p>
+	<p>
+		Description:
+		<%= @task.description %>
+	</p>
+
+	<%= link_to("Create Sub task", [:new, @task, :sub_task ], class: "btn btn-primary") %>
+	
+</div>

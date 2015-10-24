@@ -1,7 +1,17 @@
 Rails.application.routes.draw do
-  resources :projects
+  
+  resources :tasks do
+  	resources :sub_tasks
+  end
 
-  resources :users
+  resources :users do
+  	resources :projects
+  end
+
+  resources :projects do
+    resources :tasks
+  end
+
   root to: 'visitors#index'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', :as => :signin

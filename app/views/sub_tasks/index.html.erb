@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Sub Tasks</h1>
+
+<table class="table table-hover">
+    <tr>
+      <th>Task</th>
+      <th>Title</th>
+    </tr>
+
+    <% @sub_tasks.each do |sub_task| %>
+      <tr>
+        <td><%= sub_task.task.try(:title) %></td>
+        <td><%= sub_task.title%></td>
+      </tr>
+    <% end %>
+</table>
+
+<br>
+
+<%#= link_to 'New Sub task',  %>

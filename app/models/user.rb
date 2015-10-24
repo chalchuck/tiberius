@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
 	has_many :projects, dependent: :destroy
 	has_many :memberships, dependent: :destroy
 	has_many :collaborations, through: :memberships, source: :project
+	has_many :tasks, :dependent => :destroy
 
 	############CALLBACKS########################################################
 	after_commit :fetch_github_repos, on: :create
@@ -28,6 +29,10 @@ class User < ActiveRecord::Base
 	############SCOPES###########################################################
 	
 	#############################################################################
+
+	def to_s
+		try(:name) or try(:login)
+	end
 
   def self.create_with_omniauth(auth)
     create! do |user|

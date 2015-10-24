@@ -4,7 +4,7 @@ class ProjectsController < ResourceController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = current_user.projects.all
   end
 
   # GET /projects/1
@@ -24,10 +24,12 @@ class ProjectsController < ResourceController
   # POST /projects
   # POST /projects.json
   def create
-    @project = Project.new(project_params)
-
+    @project = current_user.projects.new(project_params)
+    binding.pry
     respond_to do |format|
       if @project.save
+        @project.push_to_github
+        GithubService.new(current_user).create_repo_on_github(@project)
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else
@@ -69,6 +71,6 @@ class ProjectsController < ResourceController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:github_id, :name, :slug, :description, :user_id)
+      params.require(:project).permit(:name, :slug, :description)
     end
 end
